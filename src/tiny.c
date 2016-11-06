@@ -6,20 +6,41 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 11:23:31 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/06 11:53:48 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/06 14:10:42 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void	new_alloc_t(size_t size)
+t_alloc	*new_alloc_t(size_t size)
 {
-	size = 0;
+	t_alloc *alloc;
+
+	alloc = (void *)mmap(0, sizeof(t_alloc), PROT_READ |
+			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
+	alloc->size = size;
+	alloc->next = NULL;
+	if (g_a.thead->mem_left < size)
+		new_tiny_zone(1);
+	alloc->data = g_a.thead->data + g_a.thead->size - g_a.thead->mem_left;
+	g_a.thead->mem_left -= alloc->size;
+	alloc->prev = (!g_a.atail) ? NULL : g_a.ahead;
+	if (!g_a.atail)
+	{
+		g_a.ahead = alloc;
+		g_a.atail = alloc;
+	}
+	else
+	{
+		g_a.ahead->next = alloc;
+		g_a.ahead = g_a.ahead->next;
+	}
+	return (alloc);
 }
 
-void    *new_tiny_zone(char mode)
+void	*new_tiny_zone(char mode)
 {
-	t_tiny *zone;
+	t_tiny	*zone;
 	size_t	size;
 
 	size = getpagesize() * 7;
@@ -66,12 +87,12 @@ void	*map_tiny(size_t size)
 
 	zone = NULL;
 	alloc = NULL;
-	if (is_first_tiny())
+	if (!is_first_tiny())
 	{
 		zone = new_tiny_zone(0);
-		new_alloc_t(size);
+		alloc = new_alloc_t(size);
 	}
 	else
-		new_alloc_t(size);
-	return (NULL);
+		alloc = new_alloc_t(size);
+	return (alloc);
 }

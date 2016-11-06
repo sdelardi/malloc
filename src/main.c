@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 08:59:53 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/06 11:13:33 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/06 14:07:00 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,27 @@ void		*ft_realloc(void *ptrm, size_t size)
 	return (NULL);
 }
 
+static void show_alloc(t_tiny *zone, size_t size)
+{
+	t_alloc *start;
+
+	start = g_a.atail;
+	while (start)
+	{
+		if (start->data >= zone->data && start->data <= zone->data + size)
+		{
+			printf("%p", start->data);
+			printf(" - %p", start->data + start->size);
+			printf(" : %zu octets\n", start->size);
+		}
+		start = start->next;
+	}
+}
+
 static void	ft_show_alloc_mem(void)
 {
 	t_large *start;
+	t_tiny	*tiny;
 
 	start = g_a.ltail;
 	while (start)
@@ -38,6 +56,13 @@ static void	ft_show_alloc_mem(void)
 		printf(" : %zu octets\n", start->size);
 		start = start->next;
 	}
+	tiny = g_a.ttail;
+	while (tiny)
+	{
+		printf("TINY : %p\n", tiny);
+		show_alloc(tiny, tiny->size);
+		tiny = tiny->next;
+	}
 }
 
 int			main(void)
@@ -45,6 +70,8 @@ int			main(void)
 	char 	*ptr1;
 	char 	*ptr2;
 	char 	*ptr3;
+	char 	*ptr4;
+	char 	*ptr5;
 	int		i;
 
 	/*g_n = getpagesize() / 16;
@@ -76,6 +103,8 @@ int			main(void)
 		i++;
 	}
 	ptr3[i] = '\0';
+	ptr4 = (char *)ft_malloc(sizeof(char) * 15);
+	ptr5 = (char *)ft_malloc(sizeof(char) * 100);
 	ft_show_alloc_mem();
 	munmap(ptr1, 5001);
 	munmap(ptr2, 5501);

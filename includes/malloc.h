@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/06 11:53:25 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/06 13:59:27 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 typedef struct		s_tiny
 {
 	char			*data;
-	int				size;
-	int				mem_left;
+	size_t			size;
+	size_t			mem_left;
 	struct s_tiny	*next;
 	struct s_tiny	*prev;
 }					t_tiny;
@@ -28,8 +28,8 @@ typedef struct		s_tiny
 typedef struct		s_small
 {
 	char			*data;
-	int				size;
-	int				mem_left;
+	size_t			size;
+	size_t			mem_left;
 	struct s_small	*next;
 	struct s_small	*prev;
 }					t_small;
@@ -82,5 +82,5 @@ void				*map_tiny(size_t size);
 /*
 **Alloc functions
 */
-void				new_alloc_t(size_t size);
+t_alloc				*new_alloc_t(size_t size);
 #endif
