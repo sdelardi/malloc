@@ -6,11 +6,16 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 11:23:31 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/06 11:48:21 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/06 11:53:48 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
+
+void	new_alloc_t(size_t size)
+{
+	size = 0;
+}
 
 void    *new_tiny_zone(char mode)
 {
@@ -68,4 +73,5 @@ void	*map_tiny(size_t size)
 	}
 	else
 		new_alloc_t(size);
+	return (NULL);
 }

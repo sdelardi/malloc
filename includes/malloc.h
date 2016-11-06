@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/06 11:12:24 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/06 11:53:25 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,14 @@ void				*ft_realloc(void *ptrm, size_t size);
 */
 void				*map_large(size_t size);
 void				*new_large(int i, size_t size);
+/*
+**Tiny functions
+*/
+void				*new_tiny_zone(char mode);
+int					is_first_tiny(void);
+void				*map_tiny(size_t size);
+/*
+**Alloc functions
+*/
+void				new_alloc_t(size_t size);
 #endif
