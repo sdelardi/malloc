@@ -6,25 +6,20 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 08:59:53 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/15 13:58:51 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/15 18:15:37 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void			ft_free(void *ptr)
-{
-	ptr = NULL;
-}
-
-void		*ft_realloc(void *ptrm, size_t size)
+void	*ft_realloc(void *ptrm, size_t size)
 {
 	ptrm = NULL;
 	size = 0;
 	return (NULL);
 }
 
-static void show_alloc_t(t_tiny *zone, size_t size)
+void	show_alloc_t(t_tiny *zone, size_t size)
 {
 	t_alloc *start;
 
@@ -41,7 +36,7 @@ static void show_alloc_t(t_tiny *zone, size_t size)
 	}
 }
 
-static void show_alloc_s(t_small *zone, size_t size)
+void	show_alloc_s(t_small *zone, size_t size)
 {
 	t_alloc *start;
 
@@ -58,7 +53,7 @@ static void show_alloc_s(t_small *zone, size_t size)
 	}
 }
 
-static void	ft_show_alloc_mem(void)
+void	ft_show_alloc_mem(void)
 {
 	t_large *start;
 	t_tiny	*tiny;
@@ -69,8 +64,7 @@ static void	ft_show_alloc_mem(void)
 	{
 		printf("LARGE : %p\n", start);
 		printf("%p", start->data);
-		start->data += start->size;
-		printf(" - %p", start->data);
+		printf(" - %p", start->data + start->size);
 		printf(" : %zu octets\n", start->size);
 		start = start->next;
 	}
@@ -90,7 +84,7 @@ static void	ft_show_alloc_mem(void)
 	}
 }
 
-int			main(void)
+int		main(void)
 {
 	char 	*ptr1;
 	char 	*ptr2;
@@ -133,9 +127,10 @@ int			main(void)
 	ptr5 = (char *)ft_malloc(sizeof(char) * 100);
 	ptr6 = (char *)ft_malloc(sizeof(char) * 2000);
 	ft_show_alloc_mem();
-	munmap(ptr1, 5001);
-	munmap(ptr2, 5501);
-	munmap(ptr3, 5001);
+	ft_free(ptr1);
+	ft_free(ptr2);
+	ft_free(ptr3);
+	ft_show_alloc_mem();
 	if (g_a.ltail && !g_a.ltail->next)
 	{
 		munmap(g_a.ltail, sizeof(t_large));
@@ -149,13 +144,13 @@ int			main(void)
 		{
 			if (g_a.ltail->next == NULL)
 			{
-				munmap(g_a.ltail, sizeof(t_large) + 1);
+				munmap(g_a.ltail, sizeof(t_large));
 				return (0);
 			}
 			else
 			{
 				g_a.ltail = g_a.ltail->next;
-				munmap(g_a.ltail->prev, sizeof(t_large) + 1);
+				munmap(g_a.ltail->prev, sizeof(t_large));
 			}
 		}
 	}

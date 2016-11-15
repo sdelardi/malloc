@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/15 13:44:43 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/15 17:42:09 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,16 @@ void				*map_tiny(size_t size);
 */
 t_alloc				*new_alloc_t(size_t size);
 t_alloc				*new_alloc_s(size_t size);
+/*
+**Free functions
+*/
+void				del_large(void *ptr);
+void				del_alloc(void *ptr);
+int					is_alloc(void *ptr, int *mode);
+/*
+**Show functions
+*/
+void				ft_show_alloc_mem(void);
+void				show_alloc_t(t_tiny *zone, size_t size);
+void				show_alloc_s(t_small *zone, size_t size);
 #endif

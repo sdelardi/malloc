@@ -1,5 +1,5 @@
 NAME = malloc
-SRC_NAME = main.c malloc.c large.c tiny.c small.c
+SRC_NAME = main.c malloc.c large.c tiny.c small.c free.c
 OBJ_NAME = $(SRC_NAME:.c=.o)
 	OBJ_PATH = obj/
 	SRC_PATH = src/
