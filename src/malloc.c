@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 10:09:27 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/06 13:46:13 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/15 13:56:54 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*ft_malloc(size_t size)
 	else if (size <= n)
 		ptr = map_tiny(size);
 	else if (size > n && size <= m)
-		printf("SMALL\n");
+		ptr = map_small(size);
 	else if (size > m)
 		ptr = map_large(size);
 	return (ptr);
