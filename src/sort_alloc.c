@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 19:09:00 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 19:29:23 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/19 19:31:28 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	swap_alloc(t_alloc **start, t_alloc **prev, t_alloc **next,
 	(*next)->next = *start;
 }
 
-void	sort_alloc(void)
+void		sort_alloc(void)
 {
 	t_alloc *start;
 	t_alloc *prev;

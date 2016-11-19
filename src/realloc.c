@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 15:27:44 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 18:35:10 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/19 19:34:10 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,21 @@ void	*stretch(void *ptr, size_t old, size_t size)
 	t_tiny	*tiny;
 
 	alloc = find_alloc(ptr);
+	if (alloc)
+		alloc->size = size;
 	if (size < old)
 	{
-		alloc->size = size;
 		munmap(ptr + size, old - size);
 		return (ptr);
 	}
 	if ((tiny = find_tiny(ptr)))
 	{
-		alloc->size = size;
 		tiny->size += (size - old);
 		tiny->mem_left -= (size - old);
 		return (ptr);
 	}
 	else if ((small = find_small(ptr)))
 	{
-		alloc->size = size;
 		small->size += (size - old);
 		small->mem_left -= (size - old);
 		return (ptr);
@@ -61,7 +60,7 @@ int		not_enough_size(void *ptr, size_t old, size_t size)
 	}
 	else if (old <= (size_t)(getpagesize() / 2))
 	{
-		small = find_small(ptr);;
+		small = find_small(ptr);
 		if (small->mem_left >= (size - old))
 			return (0);
 	}
@@ -70,8 +69,8 @@ int		not_enough_size(void *ptr, size_t old, size_t size)
 
 int		not_same_part(size_t old_size, size_t size)
 {
-	size_t n;
-	size_t  m;
+	size_t	n;
+	size_t	m;
 
 	n = getpagesize() / 16;
 	m = getpagesize() / 2;

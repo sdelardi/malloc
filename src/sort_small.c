@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 19:06:06 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 19:28:59 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/19 19:31:44 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	swap_small(t_small **start, t_small **prev, t_small **next,
 	(*next)->next = *start;
 }
 
-void	sort_small(void)
+void		sort_small(void)
 {
 	t_small *start;
 	t_small *prev;
