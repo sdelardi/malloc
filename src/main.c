@@ -6,18 +6,11 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 08:59:53 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/15 18:15:37 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/19 18:41:55 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
-
-void	*ft_realloc(void *ptrm, size_t size)
-{
-	ptrm = NULL;
-	size = 0;
-	return (NULL);
-}
 
 void	show_alloc_t(t_tiny *zone, size_t size)
 {
@@ -128,8 +121,7 @@ int		main(void)
 	ptr6 = (char *)ft_malloc(sizeof(char) * 2000);
 	ft_show_alloc_mem();
 	ft_free(ptr1);
-	ft_free(ptr2);
-	ft_free(ptr3);
+	ptr2 = ft_realloc(ptr2, 5700);
 	ft_show_alloc_mem();
 	if (g_a.ltail && !g_a.ltail->next)
 	{

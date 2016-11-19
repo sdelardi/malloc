@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/15 17:42:09 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/19 18:36:44 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,19 @@ int					is_alloc(void *ptr, int *mode);
 void				ft_show_alloc_mem(void);
 void				show_alloc_t(t_tiny *zone, size_t size);
 void				show_alloc_s(t_small *zone, size_t size);
+/*
+**Realloc functions
+*/
+void				*stretch(void *ptr, size_t old, size_t size);
+int					not_enough_size(void *ptr, size_t old, size_t size);
+int					not_same_part(size_t old_size, size_t size);
+size_t				find_size(void *ptr);
+/*
+**Find functions
+*/
+void				*copy_datas(void *ptr, size_t old, void *new);
+t_alloc				*find_alloc(void *ptr);
+t_small				*find_small(void *ptr);
+t_tiny				*find_tiny(void *ptr);
+t_large				*find_large(void *ptr);
 #endif

@@ -6,13 +6,13 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 14:31:38 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/15 17:55:46 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/19 15:27:30 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void		del_large(void *ptr)
+void	del_large(void *ptr)
 {
 	t_large *start;
 
@@ -40,7 +40,7 @@ void		del_large(void *ptr)
 	}
 }
 
-void		del_alloc(void *ptr)
+void	del_alloc(void *ptr)
 {
 	t_alloc *start;
 
@@ -67,7 +67,7 @@ void		del_alloc(void *ptr)
 	}
 }
 
-int			is_alloc(void *ptr, int *mode)
+int		is_alloc(void *ptr, int *mode)
 {
 	t_alloc *alloc;
 	t_large *large;
