@@ -1,5 +1,5 @@
 NAME = malloc
-SRC_NAME = main.c malloc.c large.c tiny.c small.c free.c realloc.c find.c
+SRC_NAME = main.c malloc.c large.c tiny.c small.c free.c realloc.c find.c sort_tiny.c sort_small.c sort_large.c sort_alloc.c
 OBJ_NAME = $(SRC_NAME:.c=.o)
 	OBJ_PATH = obj/
 	SRC_PATH = src/

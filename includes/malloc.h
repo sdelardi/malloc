@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 18:36:44 by sdelardi         ###   ########.fr       */
+/*   Updated: 2016/11/19 19:12:50 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,11 @@ t_alloc				*find_alloc(void *ptr);
 t_small				*find_small(void *ptr);
 t_tiny				*find_tiny(void *ptr);
 t_large				*find_large(void *ptr);
+/*
+**Sort functions
+*/
+void				sort_tiny(void);
+void				sort_small(void);
+void				sort_large(void);
+void				sort_alloc(void);
 #endif
