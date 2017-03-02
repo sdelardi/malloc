@@ -6,13 +6,13 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 10:09:27 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/15 15:20:28 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/02 19:44:22 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void	*ft_malloc(size_t size)
+void	*malloc(size_t size)
 {
 	void	*ptr;
 	size_t	n;

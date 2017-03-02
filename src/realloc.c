@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 15:27:44 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 19:34:10 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/02 19:44:59 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ size_t	find_size(void *ptr)
 		return (0);
 }
 
-void	*ft_realloc(void *ptrm, size_t size)
+void	*realloc(void *ptrm, size_t size)
 {
 	size_t	old;
 	void	*new;
@@ -104,7 +104,7 @@ void	*ft_realloc(void *ptrm, size_t size)
 	new = NULL;
 	if (ptrm == NULL)
 	{
-		ptrm = ft_malloc(size);
+		ptrm = malloc(size);
 		return (ptrm);
 	}
 	old = find_size(ptrm);
@@ -112,9 +112,9 @@ void	*ft_realloc(void *ptrm, size_t size)
 		return (ptrm);
 	if (not_same_part(old, size) || not_enough_size(ptrm, old, size))
 	{
-		new = ft_malloc(size);
+		new = malloc(size);
 		new = copy_datas(ptrm, old, new);
-		ft_free(ptrm);
+		free(ptrm);
 		return (new);
 	}
 	else

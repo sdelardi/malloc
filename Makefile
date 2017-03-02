@@ -1,17 +1,25 @@
-NAME = malloc
-SRC_NAME = main.c malloc.c large.c tiny.c small.c free.c realloc.c find.c sort_tiny.c sort_small.c sort_large.c sort_alloc.c
+ifeq ($(HOSTTYPE),)
+	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+
+NAME = libft_malloc_$(HOSTTYPE).so
+
+SRC_NAME = malloc.c large.c tiny.c small.c free.c realloc.c find.c \
+		   sort_tiny.c sort_small.c sort_large.c sort_alloc.c
 OBJ_NAME = $(SRC_NAME:.c=.o)
 	OBJ_PATH = obj/
 	SRC_PATH = src/
 	SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 	OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
-	SRCI = includes/libft.h includes/malloc.h
+	SRCI = libft/libft.h includes/malloc.h
 	FLAG = -Wall -Wextra -Werror
 	LIB = libft/libft.a
 
 $(NAME) : $(OBJ)
 	make -C ./libft
-	gcc $(FLAG) $^ $(LIB) -o $@
+	gcc $(FLAG) $^ $(LIB) -shared -o $@
+	rm -f libft_malloc.so
+	ln -s $(NAME) libft_malloc.so
 
 all : $(NAME)
 
@@ -26,6 +34,7 @@ clean :
 
 fclean : clean
 	rm -f $(NAME)
+	rm -f libft_malloc.so
 	make fclean -C ./libft
 
 re : fclean all

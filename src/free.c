@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 14:31:38 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 15:27:30 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/02 19:44:42 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int		is_alloc(void *ptr, int *mode)
 	return (0);
 }
 
-void	ft_free(void *ptr)
+void	free(void *ptr)
 {
 	int mode;
 

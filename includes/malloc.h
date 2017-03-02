@@ -6,14 +6,14 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 19:12:50 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/02 19:48:24 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 # include <stdio.h>
-# include "libft.h"
+# include "../libft/libft.h"
 # include <sys/mman.h>
 
 typedef struct		s_tiny
@@ -64,10 +64,9 @@ typedef struct		s_manage
 
 t_manage			g_a;
 
-int					main(void);
-void				ft_free(void *ptr);
-void				*ft_malloc(size_t size);
-void				*ft_realloc(void *ptrm, size_t size);
+void				free(void *ptr);
+void				*malloc(size_t size);
+void				*realloc(void *ptrm, size_t size);
 /*
 **Large functions
 */
@@ -99,7 +98,7 @@ int					is_alloc(void *ptr, int *mode);
 /*
 **Show functions
 */
-void				ft_show_alloc_mem(void);
+void				show_alloc_mem(void);
 void				show_alloc_t(t_tiny *zone, size_t size);
 void				show_alloc_s(t_small *zone, size_t size);
 /*
