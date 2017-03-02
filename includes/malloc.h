@@ -6,15 +6,15 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/03/02 19:48:24 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/02 20:14:27 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 # include <stdio.h>
-# include "../libft/libft.h"
 # include <sys/mman.h>
+# include <unistd.h>
 
 typedef struct		s_tiny
 {

@@ -2,44 +2,39 @@ ifeq ($(HOSTTYPE),)
 	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
 endif
 
-NAME = libft_malloc_$(HOSTTYPE).so
+SRCS		= free.c malloc.c realloc.c show_alloc_mem.c \
+			  find.c large.c small.c tiny.c \
+			  sort_alloc.c sort_large.c sort_small.c sort_tiny.c
 
-SRC_NAME = malloc.c large.c tiny.c small.c free.c realloc.c find.c \
-		   sort_tiny.c sort_small.c sort_large.c sort_alloc.c
-OBJ_NAME = $(SRC_NAME:.c=.o)
-	OBJ_PATH = obj/
-	SRC_PATH = src/
-	SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
-	OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
-	SRCI = libft/libft.h includes/malloc.h
-	FLAG = -Wall -Wextra -Werror
-	LIB = libft/libft.a
+PATH_OBJ	= obj
+PATH_SRC	= src
+PATH_INC	= inc
 
-$(NAME) : $(OBJ)
-	make -C ./libft
-	gcc $(FLAG) $^ $(LIB) -shared -o $@
-	rm -f libft_malloc.so
-	ln -s $(NAME) libft_malloc.so
+NAME		= libft_malloc_$(HOSTTYPE).so
+CFLAGS		= -Wall -Wextra -Werror
+DLFLAGS		= -shared -fPIC
+OBJECTS		= $(patsubst %.c, $(PATH_OBJ)/%.o, $(SRCS))
 
-all : $(NAME)
+.PHONY: all
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	gcc $(FLAG) -o $@ -c $<
+all: $(NAME)
 
-clean :
-	rm -rf $(OBJ)
-	@rmdir $(OBJ_PATH) 2> /dev/null || true
-	make clean -C libft
+$(NAME): $(OBJECTS)
+	@gcc $(DLFLAGS) -o $@ $(OBJECTS)
+	@rm -f libft_malloc.so
+	@ln -s $(NAME) libft_malloc.so
+	@echo libft_malloc.so now link to $(NAME)
 
-fclean : clean
+$(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.c)
+	@mkdir -p $(PATH_OBJ)
+	$(CC) -c -o $@ $(CFLAGS) $^  -I $(PATH_INC)/malloc.h
+
+clean:
+	@rm -f $(OBJECTS)
+	@echo Delete $(words $(OBJECTS)) object file
+
+fclean: clean
 	rm -f $(NAME)
 	rm -f libft_malloc.so
-	make fclean -C ./libft
 
-re : fclean all
-
-norme:
-	norminette */*.[ch]
-
-.PHONY : all clean fclean re norme
+re: fclean $(NAME)
