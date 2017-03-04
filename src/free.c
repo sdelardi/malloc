@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 14:31:38 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 15:27:30 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/04 19:00:40 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	del_large(void *ptr)
 				g_a.lhead = start->prev;
 			start->prev = NULL;
 			start->next = NULL;
-			munmap(ptr, start->size);
+			printf("ERRL %d\n", munmap(ptr, start->size));
 			munmap(start, sizeof(t_large));
 			start = NULL;
 			return ;
@@ -59,11 +59,12 @@ void	del_alloc(void *ptr)
 				g_a.ahead = start->prev;
 			start->prev = NULL;
 			start->next = NULL;
-			munmap(ptr, start->size);
-			munmap(start, sizeof(t_alloc));
+			printf("ERR %d\n", munmap(ptr, (start->size)));
+			printf("ERRAL %d\n", munmap(start, sizeof(t_alloc)));
 			start = NULL;
 			return ;
 		}
+		start = start->next;
 	}
 }
 

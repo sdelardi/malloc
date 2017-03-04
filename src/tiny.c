@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 11:23:31 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/06 14:10:42 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/04 19:23:35 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_alloc	*new_alloc_t(size_t size)
 	if (g_a.thead->mem_left < size)
 		new_tiny_zone(1);
 	alloc->data = g_a.thead->data + g_a.thead->size - g_a.thead->mem_left;
-	g_a.thead->mem_left -= alloc->size;
+	g_a.thead->mem_left -= (alloc->size + 1);
 	alloc->prev = (!g_a.atail) ? NULL : g_a.ahead;
 	if (!g_a.atail)
 	{
@@ -46,7 +46,7 @@ void	*new_tiny_zone(char mode)
 	size = getpagesize() * 7;
 	zone = (void *)mmap(0, sizeof(t_tiny), PROT_READ |
 			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
-	zone->data = (void *)mmap(0, size, PROT_READ |
+	zone->data = (void *)mmap(0, sizeof(char) * size, PROT_READ |
 			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
 	zone->size = size;
 	zone->mem_left = size;
@@ -94,5 +94,5 @@ void	*map_tiny(size_t size)
 	}
 	else
 		alloc = new_alloc_t(size);
-	return (alloc);
+	return (alloc->data);
 }

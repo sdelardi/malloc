@@ -6,13 +6,13 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 17:47:06 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 18:36:37 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/04 18:23:57 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void	*copy_datas(void *ptr, size_t old, void *new)
+void	*copy_datas(void *ptr, size_t old, void *new, size_t size)
 {
 	size_t	i;
 	char	*str;
@@ -21,7 +21,7 @@ void	*copy_datas(void *ptr, size_t old, void *new)
 	i = 0;
 	str = (char *)ptr;
 	strnew = (char *)new;
-	while (i < old)
+	while (i < old && i < size)
 	{
 		strnew[i] = str[i];
 		i++;
@@ -50,7 +50,7 @@ t_small	*find_small(void *ptr)
 	small = g_a.stail;
 	while (small)
 	{
-		if (ptr == small->data + small->size)
+		if (ptr >= (void *)small->data && ptr <= (void *)(small->data + small->size))
 			return (small);
 		small = small->next;
 	}
@@ -64,7 +64,7 @@ t_tiny	*find_tiny(void *ptr)
 	tiny = g_a.ttail;
 	while (tiny)
 	{
-		if (ptr == tiny->data + tiny->size)
+		if (ptr >= (void *)tiny->data && ptr <= (void *)(tiny->data + tiny->size))
 			return (tiny);
 		tiny = tiny->next;
 	}

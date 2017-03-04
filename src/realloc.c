@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 15:27:44 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 19:34:10 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/04 18:25:40 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,17 @@ size_t	find_size(void *ptr)
 	t_large *large;
 
 	if ((alloc = find_alloc(ptr)))
+	{
 		return (alloc->size);
+	}
 	else if ((large = find_large(ptr)))
+	{
 		return (large->size);
+	}
 	else
+	{
 		return (0);
+	}
 }
 
 void	*ft_realloc(void *ptrm, size_t size)
@@ -113,7 +119,7 @@ void	*ft_realloc(void *ptrm, size_t size)
 	if (not_same_part(old, size) || not_enough_size(ptrm, old, size))
 	{
 		new = ft_malloc(size);
-		new = copy_datas(ptrm, old, new);
+		new = copy_datas(ptrm, old, new, size);
 		ft_free(ptrm);
 		return (new);
 	}

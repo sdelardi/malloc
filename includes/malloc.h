@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/19 19:12:50 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/03/04 18:25:46 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct		s_manage
 
 t_manage			g_a;
 
-int					main(void);
+int					main(int ac, char **av);
 void				ft_free(void *ptr);
 void				*ft_malloc(size_t size);
 void				*ft_realloc(void *ptrm, size_t size);
@@ -112,7 +112,7 @@ size_t				find_size(void *ptr);
 /*
 **Find functions
 */
-void				*copy_datas(void *ptr, size_t old, void *new);
+void				*copy_datas(void *ptr, size_t old, void *new, size_t size);
 t_alloc				*find_alloc(void *ptr);
 t_small				*find_small(void *ptr);
 t_tiny				*find_tiny(void *ptr);
