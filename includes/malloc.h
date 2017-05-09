@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/03/04 18:25:46 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/09 10:53:08 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ t_alloc				*new_alloc_s(size_t size);
 void				del_large(void *ptr);
 void				del_alloc(void *ptr);
 int					is_alloc(void *ptr, int *mode);
+int					search_alloc(void *begin, void *end, void *exception);
+void				del_segment_tiny(void *ptr);
+void				del_segment_small(void *ptr);
 /*
 **Show functions
 */

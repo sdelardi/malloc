@@ -68,8 +68,8 @@ static void	malloc_malloc(void)
 	str8 = (char*)ft_malloc(sizeof(char) * -2);
 
 	int i = 0;
-	char *tab[1024];
-	while(i < 1024)
+	char *tab[4048];
+	while(i < 4048)
 	{
 		tab[i] = ft_malloc(24);
 		i++;
@@ -83,12 +83,15 @@ static void	malloc_malloc(void)
 	tab[0][23] = '\0';
 	printf("TAB %s\n", tab[0]);
 	i = 0;
-	while(i < 1024)
+	while(i < 4048)
 	{
 		ft_free(tab[i]);
 		i++;
 	}
-	ft_free(str6);
+	//ft_free(str6);
+	//ft_free(str);
+	//ft_free(str4);
+	//ft_free(str5);
 	printf("Allocated memory:\n");
 	ft_show_alloc_mem();
 }
