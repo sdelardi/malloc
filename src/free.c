@@ -6,43 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 12:02:56 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/09 12:02:59 by sdelardi         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/09 12:02:56 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/09 12:02:56 by sdelardi         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/09 12:02:56 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/09 12:02:56 by sdelardi         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/15 14:31:38 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/09 12:02:36 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/10 09:12:07 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +44,11 @@ int		search_alloc(void *begin, void *end, void *exception)
 {
 	t_alloc *start;
 
-	start = g_a.ahead;
+	start = g_a.atail;
 	while (start)
 	{
 		if ((void *)start->data >= begin && (void *)start->data < end && start->data != exception)
-		{
-			printf("SEGMENT NOT EMPTY\n");
 			return (1);
-		}
 		start = start->next;
 	}
 	return (0);
@@ -104,7 +65,6 @@ void	del_segment_tiny(void *ptr)
 		{
 			if (!search_alloc(tiny->data, tiny->data + tiny->size, ptr))
 			{
-				printf("ERRTINY %d\n", munmap(tiny->data, tiny->size));
 				if (tiny->prev)
 					tiny->prev->next = tiny->next;
 				else
@@ -115,7 +75,6 @@ void	del_segment_tiny(void *ptr)
 					g_a.thead = tiny->prev;
 				tiny->prev = NULL;
 				tiny->next = NULL;
-				printf("ZARBT %d\n", munmap(tiny, sizeof(t_tiny)));
 				tiny = NULL;
 			}
 			break ;
@@ -135,7 +94,6 @@ void	del_segment_small(void *ptr)
 		{
 			if (!search_alloc(small->data, small->data + small->size, ptr))
 			{
-				printf("ERRSMALL %d\n", munmap(small->data, small->size));
 				if (small->prev)
 					small->prev->next = small->next;
 				else
@@ -146,7 +104,6 @@ void	del_segment_small(void *ptr)
 					g_a.shead = small->prev;
 				small->prev = NULL;
 				small->next = NULL;
-				printf("ZARBS %d\n", munmap(small, sizeof(t_small)));
 				small = NULL;
 			}
 			break ;
@@ -178,8 +135,6 @@ void	del_alloc(void *ptr)
 				del_segment_tiny(ptr);
 			else if (start->size <= (size_t)(getpagesize() / 2))
 				del_segment_small(ptr);
-			//printf("ERR %d\n", munmap(ptr, (start->size)));
-			printf("ERRAL %d\n", munmap(start, sizeof(t_alloc)));
 			start = NULL;
 			return ;
 		}
