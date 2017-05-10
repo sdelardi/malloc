@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/10 11:00:43 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/10 16:16:02 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,27 @@
 # include <stdio.h>
 # include "libft.h"
 # include <sys/mman.h>
+# include <inttypes.h>
 
 typedef struct		s_tiny
 {
-	char			*data;
 	size_t			size;
 	size_t			mem_left;
 	struct s_tiny	*next;
 	struct s_tiny	*prev;
+	struct s_alloc	alloc[256];
+	char			*data;
 }					t_tiny;
 
 typedef struct		s_small
 {
-	char			*data;
 	size_t			size;
 	size_t			mem_left;
 	struct s_small	*next;
 	struct s_small	*prev;
+	struct s_alloc	alloc[256];
+	char			*data;
+
 }					t_small;
 
 typedef struct		s_large
@@ -45,9 +49,8 @@ typedef struct		s_large
 typedef struct		s_alloc
 {
 	char			*data;
-	size_t			size;
-	struct s_alloc	*next;
-	struct s_alloc	*prev;
+	char			is_empty;
+	uint8_t			size;
 }					t_alloc;
 
 typedef struct		s_manage
@@ -58,8 +61,6 @@ typedef struct		s_manage
 	t_tiny			*ttail;
 	t_small			*shead;
 	t_small			*stail;
-	t_alloc			*ahead;
-	t_alloc			*atail;
 }					t_manage;
 
 t_manage			g_a;
