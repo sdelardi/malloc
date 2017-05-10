@@ -6,15 +6,15 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/03/02 20:14:27 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/10 11:00:43 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 # include <stdio.h>
+# include "libft.h"
 # include <sys/mman.h>
-# include <unistd.h>
 
 typedef struct		s_tiny
 {
@@ -95,6 +95,9 @@ t_alloc				*new_alloc_s(size_t size);
 void				del_large(void *ptr);
 void				del_alloc(void *ptr);
 int					is_alloc(void *ptr, int *mode);
+int					search_alloc(void *begin, void *end, void *exception);
+void				del_segment_tiny(void *ptr);
+void				del_segment_small(void *ptr);
 /*
 **Show functions
 */
@@ -111,7 +114,7 @@ size_t				find_size(void *ptr);
 /*
 **Find functions
 */
-void				*copy_datas(void *ptr, size_t old, void *new);
+void				*copy_datas(void *ptr, size_t old, void *new, size_t size);
 t_alloc				*find_alloc(void *ptr);
 t_small				*find_small(void *ptr);
 t_tiny				*find_tiny(void *ptr);

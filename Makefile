@@ -27,7 +27,7 @@ $(NAME): $(OBJECTS)
 
 $(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.c)
 	@mkdir -p $(PATH_OBJ)
-	$(CC) -c -o $@ $(CFLAGS) $^  -I $(PATH_INC)/malloc.h
+	$(CC) -c -o $@ $(CFLAGS) $^ -O0 -g -I $(PATH_INC)/malloc.h
 
 clean:
 	@rm -f $(OBJECTS)

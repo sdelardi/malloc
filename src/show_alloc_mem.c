@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 18:26:45 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/03/02 18:28:59 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/10 09:56:09 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	show_alloc_s(t_small *zone, size_t size)
 	}
 }
 
-void	ft_show_alloc_mem(void)
+void	show_alloc_mem(void)
 {
 	t_large *start;
 	t_tiny	*tiny;

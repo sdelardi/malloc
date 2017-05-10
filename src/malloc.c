@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 10:09:27 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/03/02 19:44:22 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/10 10:08:27 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	*malloc(size_t size)
 	size_t	n;
 	size_t	m;
 
-	n = getpagesize() / 16;
-	m = getpagesize() / 2;
+	n = getpagesize() / 100;
+	m = getpagesize() / 20;
 	ptr = NULL;
-	if (size <= 0)
+	if ((long int)size <= 0)
 		printf("Are you kiddin me ?\n");
 	else if (size <= n)
 		ptr = map_tiny(size);
