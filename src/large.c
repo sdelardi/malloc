@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 11:21:09 by sdelardi          #+#    #+#             */
-/*   Updated: 2016/11/15 18:15:20 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/11 11:40:05 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ void	*new_large(int i, size_t size)
 {
 	t_large *zone;
 
-	zone = (void *)mmap(0, sizeof(t_large), PROT_READ |
+	zone = (void *)mmap(0, sizeof(t_large) + size, PROT_READ |
 			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
-	zone->data = (void *)mmap(0, size, PROT_READ |
-			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
+	zone->data = (void *)zone + sizeof(t_large);
 	zone->size = size;
 	zone->next = NULL;
 	zone->prev = (i == 0) ? NULL : g_a.lhead;

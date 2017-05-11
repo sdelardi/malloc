@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 11:23:31 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/10 16:16:05 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/11 11:52:18 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*new_alloc_t(size_t size, t_tiny *zone)
 	(zone->alloc)[i].size = size;
 	ptr = zone->data + (zone->size - zone->mem_left);
 	zone->mem_left = (size < 16) ? zone->mem_left - 16 : zone->mem_left - size;
-	return
+	return (ptr);
 }
 
 void	*new_tiny_zone(char mode)
@@ -64,10 +64,10 @@ t_tiny	*is_first_tiny(void)
 {
 	t_tiny	*start;
 
-	star = g_a.ttail;
+	start = g_a.ttail;
 	if (!start)
 		return (NULL);
-	while (start->next;)
+	while (start->next)
 		start = start->next;
 	return (start);
 }
@@ -78,13 +78,12 @@ void	*map_tiny(size_t size)
 	void	*ptr;
 
 	zone = NULL;
-	alloc = NULL;
 	if ((zone = is_first_tiny()) == NULL)
 	{
 		zone = new_tiny_zone(0);
 		ptr = new_alloc_t(size, zone);
 	}
 	else
-		ptr = new_alloc_t(size);
+		ptr = new_alloc_t(size, zone);
 	return (ptr);
 }

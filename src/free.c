@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 12:02:56 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/10 10:15:18 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/11 11:34:54 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,12 @@ void	del_large(void *ptr)
 				g_a.lhead = start->prev;
 			start->prev = NULL;
 			start->next = NULL;
-			munmap(start, sizeof(t_large));
+			munmap(start, sizeof(t_large) + start->size);
 			start = NULL;
 			return ;
 		}
 		start = start->next;
 	}
-}
-
-int		search_alloc(void *begin, void *end, void *exception)
-{
-	t_alloc *start;
-
-	start = g_a.atail;
-	while (start)
-	{
-		if ((void *)start->data >= begin && (void *)start->data < end && start->data != exception)
-			return (1);
-		start = start->next;
-	}
-	return (0);
 }
 
 void	del_segment_tiny(void *ptr)
@@ -62,7 +48,7 @@ void	del_segment_tiny(void *ptr)
 	{
 		if (ptr >= (void *)(tiny->data) && ptr < (void *)(tiny->data + tiny->size))
 		{
-			if (!search_alloc(tiny->data, tiny->data + tiny->size, ptr))
+			if (!find_alloc(ptr))
 			{
 				if (tiny->prev)
 					tiny->prev->next = tiny->next;
@@ -74,6 +60,7 @@ void	del_segment_tiny(void *ptr)
 					g_a.thead = tiny->prev;
 				tiny->prev = NULL;
 				tiny->next = NULL;
+				munmap(tiny, sizeof(t_tiny) + tiny->size);
 				tiny = NULL;
 			}
 			break ;
@@ -91,7 +78,7 @@ void	del_segment_small(void *ptr)
 	{
 		if (ptr >= (void *)small->data && ptr < (void *)small->data + small->size)
 		{
-			if (!search_alloc(small->data, small->data + small->size, ptr))
+			if (!find_alloc(ptr))
 			{
 				if (small->prev)
 					small->prev->next = small->next;
@@ -103,6 +90,7 @@ void	del_segment_small(void *ptr)
 					g_a.shead = small->prev;
 				small->prev = NULL;
 				small->next = NULL;
+				munmap(small, sizeof(t_small) + small->size);
 				small = NULL;
 			}
 			break ;
@@ -115,29 +103,15 @@ void	del_alloc(void *ptr)
 {
 	t_alloc *start;
 
-	start = g_a.atail;
-	while (start)
+	start = find_alloc(ptr);
+	if (start)
 	{
-		if (start->data == ptr)
-		{
-			if (start->prev)
-				start->prev->next = start->next;
-			else
-				g_a.atail = start->next;
-			if (start->next)
-				start->next->prev = start->prev;
-			else
-				g_a.ahead = start->prev;
-			start->prev = NULL;
-			start->next = NULL;
-			if (start->size <= (size_t)(getpagesize() / 16))
-				del_segment_tiny(ptr);
-			else if (start->size <= (size_t)(getpagesize() / 2))
-				del_segment_small(ptr);
-			start = NULL;
-			return ;
-		}
-		start = start->next;
+		start->is_empty = 1;
+		if (start->size <= (size_t)(getpagesize() / 100))
+			del_segment_tiny(ptr);
+		else if (start->size <= (size_t)(getpagesize() / 20))
+			del_segment_small(ptr);
+		return ;
 	}
 }
 
@@ -146,18 +120,14 @@ int		is_alloc(void *ptr, int *mode)
 	t_alloc *alloc;
 	t_large *large;
 
-	alloc = g_a.atail;
-	while (alloc)
+	alloc = find_alloc(ptr);
+	if (alloc)
 	{
-		if (ptr == alloc->data)
-		{
-			if (alloc->size <= (size_t)((getpagesize() / 16)))
-				*mode = 1;
-			else
-				*mode = 2;
-			return (1);
-		}
-		alloc = alloc->next;
+		if (alloc->size <= (size_t)(getpagesize() / 100))
+			*mode = 1;
+		else
+			*mode = 2;
+		return (1);
 	}
 	large = g_a.ltail;
 	while (large)

@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/10 16:16:02 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/11 11:51:20 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include "libft.h"
 # include <sys/mman.h>
 # include <inttypes.h>
+
+typedef struct		s_alloc
+{
+	char			*data;
+	char			is_empty;
+	uint8_t			size;
+}					t_alloc;
 
 typedef struct		s_tiny
 {
@@ -46,12 +53,6 @@ typedef struct		s_large
 	struct s_large	*prev;
 }					t_large;
 
-typedef struct		s_alloc
-{
-	char			*data;
-	char			is_empty;
-	uint8_t			size;
-}					t_alloc;
 
 typedef struct		s_manage
 {
@@ -76,20 +77,20 @@ void				*new_large(int i, size_t size);
 /*
 **Small functions
 */
-void				*new_small_zone(char mode);
-int					is_first_small(void);
+t_small				*new_small_zone(char mode);
+t_small				*is_first_small(void);
 void				*map_small(size_t size);
 /*
 **Tiny functions
 */
 void				*new_tiny_zone(char mode);
-int					is_first_tiny(void);
+t_tiny				*is_first_tiny(void);
 void				*map_tiny(size_t size);
 /*
 **Alloc functions
 */
-t_alloc				*new_alloc_t(size_t size);
-t_alloc				*new_alloc_s(size_t size);
+void				*new_alloc_t(size_t size, t_tiny *zone);
+void				*new_alloc_s(size_t size, t_small *zone);
 /*
 **Free functions
 */

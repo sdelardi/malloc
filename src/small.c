@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 14:46:14 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/10 16:16:00 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/11 11:50:46 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	*new_alloc_s(size_t size, t_small *zone)
 	(zone->alloc)[i].size = size;
 	ptr = zone->data + (zone->size - zone->mem_left);
 	zone->mem_left = (size < 16) ? zone->mem_left - 16 : zone->mem_left - size;
-	return
+	return (ptr);
 }
 
-void	*new_small_zone(char mode)
+t_small		*new_small_zone(char mode)
 {
-	t_tiny	*zone;
+	t_small	*zone;
 	size_t	size;
 	int		i;
 
@@ -60,31 +60,30 @@ void	*new_small_zone(char mode)
 	return (zone);
 }
 
-t_tiny	*is_first_small(void)
+t_small	*is_first_small(void)
 {
-	t_tiny	*start;
+	t_small	*start;
 
-	star = g_a.stail;
+	start = g_a.stail;
 	if (!start)
 		return (NULL);
-	while (start->next;)
+	while (start->next)
 		start = start->next;
 	return (start);
 }
 
 void	*map_small(size_t size)
 {
-	t_tiny	*zone;
+	t_small	*zone;
 	void	*ptr;
 
 	zone = NULL;
-	alloc = NULL;
 	if ((zone = is_first_small()) == NULL)
 	{
-		zone = new_tiny_zone(0);
+		zone = new_small_zone(0);
 		ptr = new_alloc_s(size, zone);
 	}
 	else
-		ptr = new_alloc_s(size);
+		ptr = new_alloc_s(size, zone);
 	return (ptr);
 }

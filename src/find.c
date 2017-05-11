@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 17:47:06 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/03/04 18:23:57 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/11 11:39:26 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,33 @@ void	*copy_datas(void *ptr, size_t old, void *new, size_t size)
 
 t_alloc	*find_alloc(void *ptr)
 {
-	t_alloc *alloc;
+	int		i;
+	t_tiny	*tiny;
+	t_small	*small;
 
-	alloc = g_a.atail;
-	while (alloc)
+	tiny = g_a.ttail;
+	while (tiny)
 	{
-		if (ptr == alloc->data)
-			return (alloc);
-		alloc = alloc->next;
+		i = 0;
+		while (i < 256)
+		{
+			if (ptr == (tiny->alloc)[i].data && (tiny->alloc)[i].is_empty == 0)
+				return (&((tiny->alloc)[i]));
+			i++;
+		}
+		tiny = tiny->next;
+	}
+	small = g_a.stail;
+	while (small)
+	{
+		i = 0;
+		while (i < 256)
+		{
+			if (ptr == (tiny->alloc)[i].data && (tiny->alloc)[i].is_empty == 0)
+				return (&((small->alloc)[i]));
+			i++;
+		}
+		small = small->next;
 	}
 	return (NULL);
 }

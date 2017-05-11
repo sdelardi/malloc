@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 18:26:45 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/10 09:56:09 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/11 11:37:24 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,37 @@
 
 void	show_alloc_t(t_tiny *zone, size_t size)
 {
-	t_alloc *start;
+	int		i;
 
 	sort_tiny();
-	start = g_a.atail;
-	while (start)
+	i = 0;
+	while (i < 256)
 	{
-		if (start->data >= zone->data && start->data <= zone->data + size)
+		if ((zone->alloc)[i].data >= zone->data && (zone->alloc)[i].data <= zone->data + size)
 		{
-			printf("%p", start->data);
-			printf(" - %p", start->data + start->size);
-			printf(" : %zu octets\n", start->size);
+			printf("%p", (zone->alloc)[i].data);
+			printf(" - %p", (zone->alloc)[i].data + (zone->alloc)[i].size);
+			printf(" : %hhu octets\n", (zone->alloc)[i].size);
 		}
-		start = start->next;
+		i++;
 	}
 }
 
 void	show_alloc_s(t_small *zone, size_t size)
 {
-	t_alloc *start;
+	int		i;
 
 	sort_small();
-	start = g_a.atail;
-	while (start)
+	i = 0;
+	while (i < 256)
 	{
-		if (start->data >= zone->data && start->data <= zone->data + size)
+		if ((zone->alloc)[i].data >= zone->data && (zone->alloc)[i].data <= zone->data + size)
 		{
-			printf("%p", start->data);
-			printf(" - %p", start->data + start->size);
-			printf(" : %zu octets\n", start->size);
+			printf("%p", (zone->alloc)[i].data);
+			printf(" - %p", (zone->alloc)[i].data + (zone->alloc)[i].size);
+			printf(" : %hhu octets\n", (zone->alloc)[i].size);
 		}
-		start = start->next;
+		i++;
 	}
 }
 
@@ -55,7 +55,6 @@ void	show_alloc_mem(void)
 	t_small *small;
 
 	sort_large();
-	sort_alloc();
 	start = g_a.ltail;
 	while (start)
 	{
