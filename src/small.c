@@ -5,49 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/15 13:38:36 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/03/04 19:23:24 by sdelardi         ###   ########.fr       */
+/*   Created: 2017/05/19 07:26:17 by sdelardi          #+#    #+#             */
+/*   Updated: 2017/05/19 07:29:23 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-t_alloc	*new_alloc_s(size_t size)
+void	*new_alloc_s(size_t size, t_small *zone)
 {
-	t_alloc *alloc;
+	void	*ptr;
+	int		i;
 
-	alloc = (void *)mmap(0, sizeof(t_alloc), PROT_READ |
-			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
-	alloc->size = size;
-	alloc->next = NULL;
-	if (g_a.shead->mem_left < size)
-		new_small_zone(1);
-	alloc->data = g_a.shead->data + g_a.shead->size - g_a.shead->mem_left;
-	g_a.shead->mem_left -= (alloc->size + 1);
-	alloc->prev = (!g_a.atail) ? NULL : g_a.ahead;
-	if (!g_a.atail)
-	{
-		g_a.ahead = alloc;
-		g_a.atail = alloc;
-	}
+	i = 0;
+	while ((zone->alloc)[i].data != NULL && i <= 250)
+		i++;
+	(zone->alloc)[i].is_empty = 0;
+	(zone->alloc)[i].size = size;
+	if (zone->size == zone->mem_left)
+		(zone->alloc)[i].data  = zone->data;
 	else
-	{
-		g_a.ahead->next = alloc;
-		g_a.ahead = g_a.ahead->next;
-	}
-	return (alloc);
+		(zone->alloc)[i].data  = zone->data + (zone->size - zone->mem_left) + 1;
+	ptr = (zone->alloc)[i].data;
+	zone->mem_left = zone->mem_left - (size + 1);
+	return (ptr);
 }
 
 void	*new_small_zone(char mode)
 {
 	t_small	*zone;
 	size_t	size;
+	int		i;
 
-	size = getpagesize() * 50;
-	zone = (void *)mmap(0, sizeof(t_small), PROT_READ |
+	i = -1;
+	size = getpagesize() * 2;
+	zone = (void *)mmap(0, sizeof(char) * size + sizeof(t_small), PROT_READ |
 			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
-	zone->data = (void *)mmap(0, sizeof(char) * size, PROT_READ |
-			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
+	zone->data = (void *)zone + sizeof(t_small);
 	zone->size = size;
 	zone->mem_left = size;
 	zone->next = NULL;
@@ -62,37 +56,46 @@ void	*new_small_zone(char mode)
 		g_a.shead->next = zone;
 		g_a.shead = g_a.shead->next;
 	}
+	while (++i <= 250)
+	{
+		(zone->alloc)[i].data = NULL;
+		(zone->alloc)[i].is_empty = 1;
+		(zone->alloc)[i].size = 0;
+	}
 	return (zone);
 }
 
-int		is_first_small(void)
+int		is_full_s(t_small *zone, size_t size)
 {
-	int		i;
-	t_small	*start;
+	int i;
 
-	start = g_a.stail;
 	i = 0;
-	while (start)
-	{
+	if (zone->mem_left < size)
+		return (1);
+	while ((zone->alloc)[i].data != NULL)
 		i++;
-		start = start->next;
-	}
-	return (i);
+	if (i == 251)
+		return (1);
+	return (0);
 }
 
 void	*map_small(size_t size)
 {
 	t_small	*zone;
-	t_alloc	*alloc;
+	void	*ptr;
 
-	zone = NULL;
-	alloc = NULL;
-	if (!is_first_small())
+	zone = g_a.shead;
+	if (zone == NULL)
 	{
 		zone = new_small_zone(0);
-		alloc = new_alloc_s(size);
+		ptr = new_alloc_s(size, zone);
+	}
+	else if (is_full_s(zone, size))
+	{
+		zone = new_small_zone(1);
+		ptr = new_alloc_s(size, zone);
 	}
 	else
-		alloc = new_alloc_s(size);
-	return (alloc->data);
+		ptr = new_alloc_s(size, zone);
+	return (ptr);
 }

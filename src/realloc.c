@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 15:27:44 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/03/04 18:25:40 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 06:36:49 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ int		not_enough_size(void *ptr, size_t old, size_t size)
 	tiny = NULL;
 	if (old > size)
 		return (0);
-	if (old <= (size_t)(getpagesize() / 16))
+	if (old <= (size_t)(getpagesize() / 100))
 	{
 		tiny = find_tiny(ptr);
 		if (tiny->mem_left >= (size - old))
 			return (0);
 	}
-	else if (old <= (size_t)(getpagesize() / 2))
+	else if (old <= (size_t)(getpagesize() / 20))
 	{
 		small = find_small(ptr);
 		if (small->mem_left >= (size - old))
@@ -72,8 +72,8 @@ int		not_same_part(size_t old_size, size_t size)
 	size_t	n;
 	size_t	m;
 
-	n = getpagesize() / 16;
-	m = getpagesize() / 2;
+	n = getpagesize() / 100;
+	m = getpagesize() / 20;
 	if (old_size > m || size > m)
 		return (1);
 	if (size > n && old_size <= n)
@@ -89,17 +89,11 @@ size_t	find_size(void *ptr)
 	t_large *large;
 
 	if ((alloc = find_alloc(ptr)))
-	{
 		return (alloc->size);
-	}
 	else if ((large = find_large(ptr)))
-	{
 		return (large->size);
-	}
 	else
-	{
 		return (0);
-	}
 }
 
 void	*ft_realloc(void *ptrm, size_t size)

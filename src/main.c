@@ -2,43 +2,6 @@
 #include <time.h>
 
 
-
-/*static void	malloc_calloc(void)
-{
-	char	*str;
-	char	*str2;
-	char	*str3;
-	char	*str4;
-	int		i = 0;
-
-	printf("calloc str de 16 octets * 2\n");
-	str = (char*)calloc(2 ,sizeof(char) * 16);
-	while (++i < 16 * 2)
-		printf("%d", str[i]);
-
-	printf("\ncalloc str2 de 1257 octets * 3\n");
-	str2 = (char*)calloc(3, sizeof(char) * 1257);
-	i = 0;
-	while (++i < 3 * 1257)
-		printf("%d", str[i]);
-
-	printf("\ncalloc str3 de 327 octets * 2\n");
-	str3 = (char*)calloc(2, sizeof(char) * 327);
-	i = 0;
-	while (++i < 2 * 327)
-		printf("%d", str[i]);
-
-	printf("\ncalloc str4 de 42 octets * 5\n");
-	str4 = (char*)calloc(5, sizeof(char) * 42);
-	i = 0;
-	while (++i < 5 * 42)
-		printf("%d", str[i]);
-	printf("\n");
-
-	printf("Allocated memory:\n");
-	ft_show_alloc_mem();
-}*/
-
 static void	malloc_malloc(void)
 {
 	char	*str;
@@ -67,23 +30,30 @@ static void	malloc_malloc(void)
 	printf("malloc str8 de -2 octet\n\n");
 	str8 = (char*)ft_malloc(sizeof(char) * -2);
 
+	ft_show_alloc_mem();
+	printf("STR %s\n", str);
 	int i = 0;
+	int j = 0;
 	char *tab[4048];
 	while(i < 4048)
 	{
 		tab[i] = ft_malloc(24);
 		i++;
 	}
-	i= 0;
-	while (i < 23)
+	j = 0;
+	while (j < 4048)
 	{
-		tab[0][i] = 'p';
-		i++;
+		i = 0;
+		while (i < 23)
+		{
+			tab[j][i] = 'p';
+			i++;
+		}
+		tab[j][i] = '\0';
+		printf("TAB :%s\n", tab[j]);
+		j++;
 	}
-	tab[0][23] = '\0';
-	printf("TAB %s\n", tab[0]);
 	i = 0;
-	ft_show_alloc_mem();
 	while(i < 4048)
 	{
 		ft_free(tab[i]);
@@ -116,6 +86,7 @@ static void	malloc_realloc(void)
 	printf("malloc str4 de 42 octets\n\n");
 	str4 = (char*)ft_malloc(sizeof(char) * 42);
 
+	str3[0] = 'p';
 	printf("Allocated memory:\n");
 	ft_show_alloc_mem();
 
@@ -197,7 +168,7 @@ static void	u_stupid_malloc_test(void)
 	i = 5;
 	while (i > 0)
 	{
-	printf("--- Fat realloc ---\n");
+		printf("--- Fat realloc ---\n");
 		allocation = (void *)ft_realloc(allocation, 65535 / i);	
 		printf("\n");
 		i--;
