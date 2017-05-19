@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 11:23:31 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 07:25:49 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 09:01:29 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	*new_tiny_zone(char mode)
 	int		i;
 
 	i = -1;
-	size = getpagesize() * 2;
+	size = getpagesize() * 5;
 	zone = (void *)mmap(0, sizeof(char) * size + sizeof(t_tiny), PROT_READ |
 			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
 	zone->data = (void *)zone + sizeof(t_tiny);

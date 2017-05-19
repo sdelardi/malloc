@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 15:27:44 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 07:38:17 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 09:00:59 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ int		not_enough_size(void *ptr, size_t old, size_t size)
 	tiny = NULL;
 	if (old > size)
 		return (0);
-	if (old <= (size_t)(getpagesize() / 100))
+	if (old <= (size_t)(getpagesize() / 20))
 	{
 		tiny = find_tiny(ptr);
 		if (tiny->mem_left >= (size - old))
 			return (0);
 	}
-	else if (old <= (size_t)(getpagesize() / 20))
+	else if (old <= (size_t)(getpagesize()))
 	{
 		small = find_small(ptr);
 		if (small->mem_left >= (size - old))
@@ -72,8 +72,8 @@ int		not_same_part(size_t old_size, size_t size)
 	size_t	n;
 	size_t	m;
 
-	n = getpagesize() / 100;
-	m = getpagesize() / 20;
+	n = getpagesize() / 20;
+	m = getpagesize();
 	if (old_size > m || size > m)
 		return (1);
 	if (size > n && old_size <= n)

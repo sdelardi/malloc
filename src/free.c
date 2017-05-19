@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 12:02:56 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 07:37:47 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 09:00:21 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ void	del_alloc(void *ptr)
 	if (start)
 	{
 		start->is_empty = 1;
-		if (start->size <= (size_t)(getpagesize() / 100))
+		if (start->size <= (size_t)(getpagesize() / 20))
 			del_segment_tiny(ptr);
-		else if (start->size <= (size_t)(getpagesize() / 20))
+		else if (start->size <= (size_t)(getpagesize()))
 			del_segment_small(ptr);
 		return ;
 	}
@@ -123,7 +123,7 @@ int		is_alloc(void *ptr, int *mode)
 	alloc = find_alloc(ptr);
 	if (alloc)
 	{
-		if (alloc->size <= (size_t)(getpagesize() / 100))
+		if (alloc->size <= (size_t)(getpagesize() / 20))
 			*mode = 1;
 		else
 			*mode = 2;
