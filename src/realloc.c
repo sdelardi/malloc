@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 15:27:44 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 09:00:59 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 10:53:01 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ void	*realloc(void *ptrm, size_t size)
 		ptrm = malloc(size);
 		return (ptrm);
 	}
+	if (find_alloc(ptrm) == NULL && find_large(ptrm) == NULL)
+		return (NULL);
 	old = find_size(ptrm);
 	if (old == size)
 		return (ptrm);

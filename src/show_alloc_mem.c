@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 18:26:45 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 08:58:35 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 10:07:58 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	show_alloc_t(t_tiny *zone, size_t size)
 		{
 			printf("%p", (zone->alloc)[i].data);
 			printf(" - %p", (zone->alloc)[i].data + (zone->alloc)[i].size);
-			printf(" : %hhu octets\n", (zone->alloc)[i].size);
+			printf(" : %zu octets\n", (zone->alloc)[i].size);
 		}
 		i++;
 	}
@@ -40,7 +40,7 @@ void	show_alloc_s(t_small *zone, size_t size)
 		{
 			printf("%p", (zone->alloc)[i].data);
 			printf(" - %p", (zone->alloc)[i].data + (zone->alloc)[i].size);
-			printf(" : %hhu octets\n", (zone->alloc)[i].size);
+			printf(" : %zu octets\n", (zone->alloc)[i].size);
 		}
 		i++;
 	}

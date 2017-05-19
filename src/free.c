@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 12:02:56 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 09:00:21 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 10:23:25 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	del_segment_tiny(void *ptr)
 	t_tiny	*tiny;
 
 	tiny = g_a.ttail;
+	if (tiny == NULL || tiny->next == NULL)
+		return ;
 	while (tiny)
 	{
 		if (ptr >= (void *)(tiny->data) && ptr < (void *)(tiny->data + tiny->size))
@@ -74,6 +76,8 @@ void	del_segment_small(void *ptr)
 	t_small *small;
 
 	small = g_a.stail;
+	if (small == NULL || small->next == NULL)
+		return ;
 	while (small)
 	{
 		if (ptr >= (void *)small->data && ptr < (void *)small->data + small->size)

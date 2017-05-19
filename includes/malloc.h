@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 08:35:49 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 10:07:28 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct		s_alloc
 {
 	char			*data;
 	char			is_empty;
-	uint8_t			size;
+	size_t			size;
 }					t_alloc;
 
 typedef struct		s_tiny

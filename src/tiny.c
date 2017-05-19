@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 11:23:31 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 09:01:29 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 10:40:01 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,16 @@ void	*new_alloc_t(size_t size, t_tiny *zone)
 
 	i = 0;
 	while ((zone->alloc)[i].data != NULL && i <= 250)
+	{
+		if ((zone->alloc)[i].is_empty == 1 && size <= (zone->alloc)[i].size)
+		{
+			(zone->alloc)[i].is_empty = 0;
+			(zone->alloc)[i].size = size;
+			ptr = (zone->alloc)[i].data;
+			return (ptr);
+		}
 		i++;
+	}
 	(zone->alloc)[i].is_empty = 0;
 	(zone->alloc)[i].size = size;
 	if (zone->size == zone->mem_left)
