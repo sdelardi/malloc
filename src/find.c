@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 17:47:06 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/11 11:39:26 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 06:50:18 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ t_alloc	*find_alloc(void *ptr)
 		while (i < 256)
 		{
 			if (ptr == (tiny->alloc)[i].data && (tiny->alloc)[i].is_empty == 0)
+			{
 				return (&((tiny->alloc)[i]));
+			}
 			i++;
 		}
 		tiny = tiny->next;
@@ -53,7 +55,7 @@ t_alloc	*find_alloc(void *ptr)
 		i = 0;
 		while (i < 256)
 		{
-			if (ptr == (tiny->alloc)[i].data && (tiny->alloc)[i].is_empty == 0)
+			if (ptr == (small->alloc)[i].data && (small->alloc)[i].is_empty == 0)
 				return (&((small->alloc)[i]));
 			i++;
 		}

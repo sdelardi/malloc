@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 11:23:31 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/11 11:52:18 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 07:25:49 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@ void	*new_alloc_t(size_t size, t_tiny *zone)
 	int		i;
 
 	i = 0;
-	while ((zone->alloc)[i].is_empty == 0 && i <= 250)
+	while ((zone->alloc)[i].data != NULL && i <= 250)
 		i++;
 	(zone->alloc)[i].is_empty = 0;
 	(zone->alloc)[i].size = size;
-	ptr = zone->data + (zone->size - zone->mem_left);
-	zone->mem_left = (size < 16) ? zone->mem_left - 16 : zone->mem_left - size;
+	if (zone->size == zone->mem_left)
+		(zone->alloc)[i].data  = zone->data;
+	else
+		(zone->alloc)[i].data  = zone->data + (zone->size - zone->mem_left) + 1;
+	ptr = (zone->alloc)[i].data;
+	zone->mem_left = (size < 16) ? zone->mem_left - 16 : zone->mem_left - (size + 1);
 	return (ptr);
 }
 
@@ -34,10 +38,10 @@ void	*new_tiny_zone(char mode)
 	int		i;
 
 	i = -1;
-	size = getpagesize();
+	size = getpagesize() * 2;
 	zone = (void *)mmap(0, sizeof(char) * size + sizeof(t_tiny), PROT_READ |
 			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
-	zone->data = (void *)(zone + sizeof(t_tiny));
+	zone->data = (void *)zone + sizeof(t_tiny);
 	zone->size = size;
 	zone->mem_left = size;
 	zone->next = NULL;
@@ -54,22 +58,25 @@ void	*new_tiny_zone(char mode)
 	}
 	while (++i <= 250)
 	{
+		(zone->alloc)[i].data = NULL;
 		(zone->alloc)[i].is_empty = 1;
 		(zone->alloc)[i].size = 0;
 	}
 	return (zone);
 }
 
-t_tiny	*is_first_tiny(void)
+int		is_full_t(t_tiny *zone, size_t size)
 {
-	t_tiny	*start;
+	int i;
 
-	start = g_a.ttail;
-	if (!start)
-		return (NULL);
-	while (start->next)
-		start = start->next;
-	return (start);
+	i = 0;
+	if (zone->mem_left < 16 || zone->mem_left < size)
+		return (1);
+	while ((zone->alloc)[i].data != NULL)
+		i++;
+	if (i == 251)
+		return (1);
+	return (0);
 }
 
 void	*map_tiny(size_t size)
@@ -77,10 +84,15 @@ void	*map_tiny(size_t size)
 	t_tiny	*zone;
 	void	*ptr;
 
-	zone = NULL;
-	if ((zone = is_first_tiny()) == NULL)
+	zone = g_a.thead;
+	if (zone == NULL)
 	{
 		zone = new_tiny_zone(0);
+		ptr = new_alloc_t(size, zone);
+	}
+	else if (is_full_t(zone, size))
+	{
+		zone = new_tiny_zone(1);
 		ptr = new_alloc_t(size, zone);
 	}
 	else

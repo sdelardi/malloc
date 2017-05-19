@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 12:02:56 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/11 11:34:54 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 07:37:47 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	del_segment_tiny(void *ptr)
 	{
 		if (ptr >= (void *)(tiny->data) && ptr < (void *)(tiny->data + tiny->size))
 		{
-			if (!find_alloc(ptr))
+			if (find_alloc(ptr) == NULL)
 			{
 				if (tiny->prev)
 					tiny->prev->next = tiny->next;
@@ -78,7 +78,7 @@ void	del_segment_small(void *ptr)
 	{
 		if (ptr >= (void *)small->data && ptr < (void *)small->data + small->size)
 		{
-			if (!find_alloc(ptr))
+			if (find_alloc(ptr) == NULL)
 			{
 				if (small->prev)
 					small->prev->next = small->next;

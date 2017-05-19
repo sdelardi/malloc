@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/10 14:46:14 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/11 11:50:46 by sdelardi         ###   ########.fr       */
+/*   Created: 2017/05/19 07:26:17 by sdelardi          #+#    #+#             */
+/*   Updated: 2017/05/19 07:29:23 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,30 @@ void	*new_alloc_s(size_t size, t_small *zone)
 	int		i;
 
 	i = 0;
-	while ((zone->alloc)[i].is_empty == 0 && i <= 250)
+	while ((zone->alloc)[i].data != NULL && i <= 250)
 		i++;
 	(zone->alloc)[i].is_empty = 0;
 	(zone->alloc)[i].size = size;
-	ptr = zone->data + (zone->size - zone->mem_left);
-	zone->mem_left = (size < 16) ? zone->mem_left - 16 : zone->mem_left - size;
+	if (zone->size == zone->mem_left)
+		(zone->alloc)[i].data  = zone->data;
+	else
+		(zone->alloc)[i].data  = zone->data + (zone->size - zone->mem_left) + 1;
+	ptr = (zone->alloc)[i].data;
+	zone->mem_left = zone->mem_left - (size + 1);
 	return (ptr);
 }
 
-t_small		*new_small_zone(char mode)
+void	*new_small_zone(char mode)
 {
 	t_small	*zone;
 	size_t	size;
 	int		i;
 
 	i = -1;
-	size = getpagesize();
+	size = getpagesize() * 2;
 	zone = (void *)mmap(0, sizeof(char) * size + sizeof(t_small), PROT_READ |
 			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
-	zone->data = (void *)(zone + sizeof(t_small));
+	zone->data = (void *)zone + sizeof(t_small);
 	zone->size = size;
 	zone->mem_left = size;
 	zone->next = NULL;
@@ -54,22 +58,25 @@ t_small		*new_small_zone(char mode)
 	}
 	while (++i <= 250)
 	{
+		(zone->alloc)[i].data = NULL;
 		(zone->alloc)[i].is_empty = 1;
 		(zone->alloc)[i].size = 0;
 	}
 	return (zone);
 }
 
-t_small	*is_first_small(void)
+int		is_full_s(t_small *zone, size_t size)
 {
-	t_small	*start;
+	int i;
 
-	start = g_a.stail;
-	if (!start)
-		return (NULL);
-	while (start->next)
-		start = start->next;
-	return (start);
+	i = 0;
+	if (zone->mem_left < size)
+		return (1);
+	while ((zone->alloc)[i].data != NULL)
+		i++;
+	if (i == 251)
+		return (1);
+	return (0);
 }
 
 void	*map_small(size_t size)
@@ -77,10 +84,15 @@ void	*map_small(size_t size)
 	t_small	*zone;
 	void	*ptr;
 
-	zone = NULL;
-	if ((zone = is_first_small()) == NULL)
+	zone = g_a.shead;
+	if (zone == NULL)
 	{
 		zone = new_small_zone(0);
+		ptr = new_alloc_s(size, zone);
+	}
+	else if (is_full_s(zone, size))
+	{
+		zone = new_small_zone(1);
 		ptr = new_alloc_s(size, zone);
 	}
 	else

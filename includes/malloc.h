@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/11 11:51:20 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 07:39:12 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,12 @@ void				*new_large(int i, size_t size);
 /*
 **Small functions
 */
-t_small				*new_small_zone(char mode);
-t_small				*is_first_small(void);
+void				*new_small_zone(char mode);
 void				*map_small(size_t size);
 /*
 **Tiny functions
 */
 void				*new_tiny_zone(char mode);
-t_tiny				*is_first_tiny(void);
 void				*map_tiny(size_t size);
 /*
 **Alloc functions

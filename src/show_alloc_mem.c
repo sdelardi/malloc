@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 18:26:45 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/11 11:37:24 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/19 07:38:30 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ void	show_alloc_t(t_tiny *zone, size_t size)
 {
 	int		i;
 
-	sort_tiny();
 	i = 0;
 	while (i < 256)
 	{
-		if ((zone->alloc)[i].data >= zone->data && (zone->alloc)[i].data <= zone->data + size)
+		if ((zone->alloc)[i].data >= zone->data && (zone->alloc)[i].data < zone->data + size && (zone->alloc)[i].is_empty == 0)
 		{
 			printf("%p", (zone->alloc)[i].data);
 			printf(" - %p", (zone->alloc)[i].data + (zone->alloc)[i].size);
@@ -34,11 +33,10 @@ void	show_alloc_s(t_small *zone, size_t size)
 {
 	int		i;
 
-	sort_small();
 	i = 0;
 	while (i < 256)
 	{
-		if ((zone->alloc)[i].data >= zone->data && (zone->alloc)[i].data <= zone->data + size)
+		if ((zone->alloc)[i].data >= zone->data && (zone->alloc)[i].data < zone->data + size && (zone->alloc)[i].is_empty == 0)
 		{
 			printf("%p", (zone->alloc)[i].data);
 			printf(" - %p", (zone->alloc)[i].data + (zone->alloc)[i].size);
@@ -55,6 +53,8 @@ void	show_alloc_mem(void)
 	t_small *small;
 
 	sort_large();
+	sort_tiny();
+	sort_small();
 	start = g_a.ltail;
 	while (start)
 	{
