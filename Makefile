@@ -4,7 +4,7 @@ endif
 
 SRCS		= free.c malloc.c realloc.c show_alloc_mem.c \
 			  find.c large.c small.c tiny.c \
-			  sort_large.c sort_small.c sort_tiny.c
+			  sort_alloc.c
 
 PATH_OBJ	= obj
 PATH_SRC	= src

@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 18:26:45 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 10:07:58 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/20 11:55:47 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,34 +48,30 @@ void	show_alloc_s(t_small *zone, size_t size)
 
 void	show_alloc_mem(void)
 {
-	t_large *start;
-	t_tiny	*tiny;
-	t_small *small;
+	t_sort	*start;
 
-	sort_large();
-	sort_tiny();
-	sort_small();
-	start = g_a.ltail;
+	sort_alloc();
+	start = g_a.sotail;
 	while (start)
 	{
-		printf("LARGE : %p\n", start);
-		printf("%p", start->data);
-		printf(" - %p", start->data + start->size);
-		printf(" : %zu octets\n", start->size);
+		if (start->type == 1)
+		{
+			printf("LARGE : %p\n", (t_large *)(start->large));
+			printf("%p", (t_large *)(start->large)->data);
+			printf(" - %p", (t_large *)(start->large)->data + start->size);
+			printf(" : %zu octets\n", start->size);
+		}
+		else if (start->type == 2 && start->size == (size_t)getpagesize() * 5)
+		{
+			printf("TINY : %p\n", (t_tiny *)(start->tiny));
+			show_alloc_t((t_tiny *)(start->tiny), start->size);
+		}
+		else if (start->type == 3 && start->size == (size_t)getpagesize() * 100)
+		{
+			printf("SMALL : %p\n", (t_small *)(start->small));
+			show_alloc_s((t_small *)(start->small), start->size);
+		}
 		start = start->next;
 	}
-	tiny = g_a.ttail;
-	while (tiny)
-	{
-		printf("TINY : %p\n", tiny);
-		show_alloc_t(tiny, tiny->size);
-		tiny = tiny->next;
-	}
-	small = g_a.stail;
-	while (small)
-	{
-		printf("SMALL : %p\n", small);
-		show_alloc_s(small, small->size);
-		small = small->next;
-	}
+	end_sort();
 }

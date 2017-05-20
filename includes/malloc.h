@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 10:07:28 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/20 11:36:40 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,18 @@ typedef struct		s_large
 	struct s_large	*prev;
 }					t_large;
 
+typedef struct		s_sort
+{
+	t_tiny			*tiny;
+	t_small			*small;
+	t_large			*large;
+	void			*addr;
+	size_t			size;
+	void			*data;
+	int				type;
+	struct s_sort	*next;
+	struct s_sort	*prev;
+}					t_sort;
 
 typedef struct		s_manage
 {
@@ -62,6 +74,8 @@ typedef struct		s_manage
 	t_tiny			*ttail;
 	t_small			*shead;
 	t_small			*stail;
+	t_sort			*sohead;
+	t_sort			*sotail;
 }					t_manage;
 
 t_manage			g_a;
@@ -122,8 +136,8 @@ t_large				*find_large(void *ptr);
 /*
 **Sort functions
 */
-void				sort_tiny(void);
-void				sort_small(void);
-void				sort_large(void);
 void				sort_alloc(void);
+void				new_sort(void *data, size_t size, void *alloc, int type);
+void				end_sort(void);
+void				sort_sort(void);
 #endif
