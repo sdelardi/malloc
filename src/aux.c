@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 09:08:53 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/23 09:50:11 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/23 10:54:35 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	aux_tiny(t_tiny **new, char mode)
 	}
 }
 
-void    aux_small(t_small **new, char mode)
+void	aux_small(t_small **new, char mode)
 {
 	t_small *zone;
 	int		i;

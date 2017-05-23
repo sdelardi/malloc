@@ -6,16 +6,16 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/23 09:50:47 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/23 11:07:06 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 # include <stdio.h>
-# include "libft.h"
 # include <sys/mman.h>
 # include <inttypes.h>
+# include "libftprintf.h"
 
 typedef struct		s_alloc
 {
