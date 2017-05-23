@@ -6,38 +6,11 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 12:02:56 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/20 07:42:27 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/23 09:10:54 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
-
-void	del_large(void *ptr)
-{
-	t_large *start;
-
-	start = g_a.ltail;
-	while (start)
-	{
-		if (start->data == ptr)
-		{
-			if (start->prev)
-				start->prev->next = start->next;
-			else
-				g_a.ltail = start->next;
-			if (start->next)
-				start->next->prev = start->prev;
-			else
-				g_a.lhead = start->prev;
-			start->prev = NULL;
-			start->next = NULL;
-			munmap(start, sizeof(t_large) + start->size);
-			start = NULL;
-			return ;
-		}
-		start = start->next;
-	}
-}
 
 void	del_segment_tiny(void *ptr)
 {
@@ -48,23 +21,11 @@ void	del_segment_tiny(void *ptr)
 		return ;
 	while (tiny)
 	{
-		if (ptr >= (void *)(tiny->data) && ptr < (void *)(tiny->data + tiny->size))
+		if (ptr >= (void *)(tiny->data)
+		&& ptr < (void *)(tiny->data + tiny->size))
 		{
 			if (find_alloc(ptr) == NULL)
-			{
-				if (tiny->prev)
-					tiny->prev->next = tiny->next;
-				else
-					g_a.ttail = tiny->next;
-				if (tiny->next)
-					tiny->next->prev = tiny->prev;
-				else
-					g_a.thead = tiny->prev;
-				tiny->prev = NULL;
-				tiny->next = NULL;
-				munmap(tiny, sizeof(t_tiny) + tiny->size);
-				tiny = NULL;
-			}
+				init_tiny(&tiny);
 			break ;
 		}
 		tiny = tiny->next;
@@ -80,23 +41,11 @@ void	del_segment_small(void *ptr)
 		return ;
 	while (small)
 	{
-		if (ptr >= (void *)small->data && ptr < (void *)small->data + small->size)
+		if (ptr >= (void *)small->data
+		&& ptr < (void *)small->data + small->size)
 		{
 			if (find_alloc(ptr) == NULL)
-			{
-				if (small->prev)
-					small->prev->next = small->next;
-				else
-					g_a.stail = small->next;
-				if (small->next)
-					small->next->prev = small->prev;
-				else
-					g_a.shead = small->prev;
-				small->prev = NULL;
-				small->next = NULL;
-				munmap(small, sizeof(t_small) + small->size);
-				small = NULL;
-			}
+				init_small(&small);
 			break ;
 		}
 		small = small->next;

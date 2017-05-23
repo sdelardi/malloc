@@ -6,13 +6,13 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 08:09:31 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/20 11:56:33 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/23 09:44:48 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-static void swap_sort(t_sort **start, t_sort **prev, t_sort **next,
+static void		swap_sort(t_sort **start, t_sort **prev, t_sort **next,
 		t_sort **second)
 {
 	*prev = (*start)->prev;
@@ -32,13 +32,13 @@ static void swap_sort(t_sort **start, t_sort **prev, t_sort **next,
 	(*next)->next = *start;
 }
 
-void        sort_sort(void)
+void			sort_sort(void)
 {
-	t_sort *start;
-	t_sort *prev;
-	t_sort *next;
-	t_sort *second;
-	int     sort;
+	t_sort	*start;
+	t_sort	*prev;
+	t_sort	*next;
+	t_sort	*second;
+	int		sort;
 
 	sort = 1;
 	while (sort)
@@ -57,7 +57,7 @@ void        sort_sort(void)
 	}
 }
 
-void	new_sort(void *data, size_t size, void *alloc, int type)
+void			new_sort(void *data, size_t size, void *alloc, int type)
 {
 	t_sort	*new;
 
@@ -74,21 +74,10 @@ void	new_sort(void *data, size_t size, void *alloc, int type)
 		new->small = (t_small *)alloc;
 	new->type = type;
 	new->next = NULL;
-	if (g_a.sohead == NULL)
-	{
-		new->prev = NULL;
-		g_a.sohead = new;
-		g_a.sotail = new;
-	}
-	else
-	{
-		new->prev = g_a.sohead;
-		g_a.sohead->next = new;
-		g_a.sohead = g_a.sohead->next;
-	}
+	aux_sort(&new);
 }
 
-void	end_sort(void)
+void			end_sort(void)
 {
 	t_sort	*start;
 
@@ -103,7 +92,7 @@ void	end_sort(void)
 	g_a.sohead = NULL;
 }
 
-void	sort_alloc(void)
+void			sort_alloc(void)
 {
 	t_large	*large;
 	t_tiny	*tiny;

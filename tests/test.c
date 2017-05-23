@@ -3,9 +3,9 @@
 #include <time.h>
 
 void	show_alloc_mem();
-void	show_full_mem();
+//void	show_full_mem();
 
-void	malloc_calloc(void)
+/*void	malloc_calloc(void)
 {
 	char	*str;
 	char	*str2;
@@ -41,7 +41,7 @@ void	malloc_calloc(void)
 	show_alloc_mem();
 	printf("\nFull process memory\n");
 	show_full_mem();
-}
+}*/
 
 void	malloc_malloc(void)
 {
@@ -55,33 +55,33 @@ void	malloc_malloc(void)
 	char	*str8;
 
 	printf("malloc str de 16 octets\n");
-	str = (char*)ft_malloc(sizeof(char) * 16);
+	str = (char*)malloc(sizeof(char) * 16);
 	printf("malloc str2 de 1257 octets\n");
-	str2 = (char*)ft_malloc(sizeof(char) * 1257);
+	str2 = (char*)malloc(sizeof(char) * 1257);
 	printf("malloc str3 de 327 octets\n");
-	str3 = (char*)ft_malloc(sizeof(char) * 327);
+	str3 = (char*)malloc(sizeof(char) * 327);
 	printf("malloc str4 de 42 octets\n");
-	str4 = (char*)ft_malloc(sizeof(char) * 42);
+	str4 = (char*)malloc(sizeof(char) * 42);
 	printf("malloc str5 de 1 octet\n");
-	str5 = (char*)ft_malloc(sizeof(char) * 1);
+	str5 = (char*)malloc(sizeof(char) * 1);
 	printf("malloc str6 de 4055 octet\n");
-	str6 = (char*)ft_malloc(sizeof(char) * 4055);
+	str6 = (char*)malloc(sizeof(char) * 4055);
 	printf("malloc str7 de 0 octet\n");
-	str7 = (char*)ft_malloc(sizeof(char) * 0);
+	str7 = (char*)malloc(sizeof(char) * 0);
 	printf("malloc str8 de -2 octet\n\n");
-	str8 = (char*)ft_malloc(sizeof(char) * -2);
+	str8 = (char*)malloc(sizeof(char) * -2);
 
 	int i = 0;
 	char *tab[1024];
 	while(i < 1024)
 	{
-		tab[i] = ft_malloc(24);
+		tab[i] = malloc(24);
 		i++;
 	}
 	i= 0;
 	while(i < 1024)
 	{
-		ft_free(tab[i]);
+		free(tab[i]);
 		i++;
 	}
 	printf("Allocated memory:\n");
@@ -107,8 +107,6 @@ void	malloc_realloc(void)
 
 	printf("Allocated memory:\n");
 	show_alloc_mem();
-	printf("\nFull process memory\n");
-	show_full_mem();
 
 	printf("\nrealloc str de 27 octets\n");
 	str = (char *)realloc(str, sizeof(char) * 27);
@@ -122,7 +120,6 @@ void	malloc_realloc(void)
 	printf("Allocated memory:\n");
 	show_alloc_mem();
 	printf("\nFull process memory\n");
-	show_full_mem();
 }
 
 void	malloc_free(void)
@@ -144,7 +141,6 @@ void	malloc_free(void)
 	printf("Allocated memory:\n");
 	show_alloc_mem();
 	printf("\nFull process memory\n");
-	show_full_mem();
 
 	printf("\nfree str\n");
 	free(str);
@@ -166,7 +162,6 @@ void	malloc_free(void)
 	printf("Allocated memory:\n");
 	show_alloc_mem();
 	printf("Full process memory\n");
-	show_full_mem();
 
 	printf("\nfree str4\n");
 	free(str4);
@@ -188,17 +183,14 @@ void	u_stupid_malloc_test(void)
 		free(allocation);
 		i++;
 	}
-	show_full_mem();
 	printf("--- Fat alloc ---\n");
 	allocation = NULL;
 	allocation = (void *)malloc(sizeof(char) * 65535);
-	show_full_mem();
 	i = 5;
 	while (i > 0)
 	{
 	printf("--- Fat realloc ---\n");
 		allocation = (void *)realloc(allocation, 65535 / i);	
-		show_full_mem();
 		printf("\n");
 		i--;
 	}

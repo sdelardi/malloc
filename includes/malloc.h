@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 09:12:07 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/20 11:36:40 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/23 09:50:47 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,4 +140,13 @@ void				sort_alloc(void);
 void				new_sort(void *data, size_t size, void *alloc, int type);
 void				end_sort(void);
 void				sort_sort(void);
+/*
+**Aux functions
+*/
+void				aux_small(t_small **new, char mode);
+void				aux_tiny(t_tiny **new, char mode);
+void				init_tiny(t_tiny **new);
+void				init_small(t_small **new);
+void				del_large(void *ptr);
+void				aux_sort(t_sort **sort);
 #endif

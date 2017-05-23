@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 11:23:31 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 10:40:01 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/23 09:50:08 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ void	*new_alloc_t(size_t size, t_tiny *zone)
 	(zone->alloc)[i].is_empty = 0;
 	(zone->alloc)[i].size = size;
 	if (zone->size == zone->mem_left)
-		(zone->alloc)[i].data  = zone->data;
+		(zone->alloc)[i].data = zone->data;
 	else
-		(zone->alloc)[i].data  = zone->data + (zone->size - zone->mem_left) + 1;
+		(zone->alloc)[i].data = zone->data + (zone->size - zone->mem_left) + 1;
 	ptr = (zone->alloc)[i].data;
-	zone->mem_left = (size < 16) ? zone->mem_left - 16 : zone->mem_left - (size + 1);
+	zone->mem_left = (size < 16) ?
+	zone->mem_left - 16 : zone->mem_left - (size + 1);
 	return (ptr);
 }
 
@@ -55,22 +56,7 @@ void	*new_tiny_zone(char mode)
 	zone->mem_left = size;
 	zone->next = NULL;
 	zone->prev = (mode == 0) ? NULL : g_a.thead;
-	if (mode == 0)
-	{
-		g_a.thead = zone;
-		g_a.ttail = zone;
-	}
-	else
-	{
-		g_a.thead->next = zone;
-		g_a.thead = g_a.thead->next;
-	}
-	while (++i <= 250)
-	{
-		(zone->alloc)[i].data = NULL;
-		(zone->alloc)[i].is_empty = 1;
-		(zone->alloc)[i].size = 0;
-	}
+	aux_tiny(&zone, mode);
 	return (zone);
 }
 

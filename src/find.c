@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 17:47:06 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 06:50:18 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/23 08:49:30 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,21 @@ t_alloc	*find_alloc(void *ptr)
 	tiny = g_a.ttail;
 	while (tiny)
 	{
-		i = 0;
-		while (i < 256)
-		{
-			if (ptr == (tiny->alloc)[i].data && (tiny->alloc)[i].is_empty == 0)
-			{
+		i = -1;
+		while (++i < 256)
+			if (ptr == (tiny->alloc)[i].data
+			&& (tiny->alloc)[i].is_empty == 0)
 				return (&((tiny->alloc)[i]));
-			}
-			i++;
-		}
 		tiny = tiny->next;
 	}
 	small = g_a.stail;
 	while (small)
 	{
-		i = 0;
-		while (i < 256)
-		{
-			if (ptr == (small->alloc)[i].data && (small->alloc)[i].is_empty == 0)
+		i = -1;
+		while (++i < 256)
+			if (ptr == (small->alloc)[i].data
+			&& (small->alloc)[i].is_empty == 0)
 				return (&((small->alloc)[i]));
-			i++;
-		}
 		small = small->next;
 	}
 	return (NULL);
@@ -71,7 +65,8 @@ t_small	*find_small(void *ptr)
 	small = g_a.stail;
 	while (small)
 	{
-		if (ptr >= (void *)small->data && ptr <= (void *)(small->data + small->size))
+		if (ptr >= (void *)small->data
+		&& ptr <= (void *)(small->data + small->size))
 			return (small);
 		small = small->next;
 	}
@@ -85,7 +80,8 @@ t_tiny	*find_tiny(void *ptr)
 	tiny = g_a.ttail;
 	while (tiny)
 	{
-		if (ptr >= (void *)tiny->data && ptr <= (void *)(tiny->data + tiny->size))
+		if (ptr >= (void *)tiny->data
+		&& ptr <= (void *)(tiny->data + tiny->size))
 			return (tiny);
 		tiny = tiny->next;
 	}

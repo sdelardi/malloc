@@ -6,7 +6,7 @@
 /*   By: sdelardi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 07:26:17 by sdelardi          #+#    #+#             */
-/*   Updated: 2017/05/19 10:40:04 by sdelardi         ###   ########.fr       */
+/*   Updated: 2017/05/23 09:23:51 by sdelardi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	*new_alloc_s(size_t size, t_small *zone)
 	(zone->alloc)[i].is_empty = 0;
 	(zone->alloc)[i].size = size;
 	if (zone->size == zone->mem_left)
-		(zone->alloc)[i].data  = zone->data;
+		(zone->alloc)[i].data = zone->data;
 	else
-		(zone->alloc)[i].data  = zone->data + (zone->size - zone->mem_left) + 1;
+		(zone->alloc)[i].data = zone->data + (zone->size - zone->mem_left) + 1;
 	ptr = (zone->alloc)[i].data;
 	zone->mem_left = zone->mem_left - (size + 1);
 	return (ptr);
@@ -44,9 +44,7 @@ void	*new_small_zone(char mode)
 {
 	t_small	*zone;
 	size_t	size;
-	int		i;
 
-	i = -1;
 	size = getpagesize() * 100;
 	zone = (void *)mmap(0, sizeof(char) * size + sizeof(t_small), PROT_READ |
 			PROT_WRITE, MAP_ANON | MAP_PRIVATE, 0, 0);
@@ -55,22 +53,7 @@ void	*new_small_zone(char mode)
 	zone->mem_left = size;
 	zone->next = NULL;
 	zone->prev = (mode == 0) ? NULL : g_a.shead;
-	if (mode == 0)
-	{
-		g_a.shead = zone;
-		g_a.stail = zone;
-	}
-	else
-	{
-		g_a.shead->next = zone;
-		g_a.shead = g_a.shead->next;
-	}
-	while (++i <= 250)
-	{
-		(zone->alloc)[i].data = NULL;
-		(zone->alloc)[i].is_empty = 1;
-		(zone->alloc)[i].size = 0;
-	}
+	aux_small(&zone, mode);
 	return (zone);
 }
 
